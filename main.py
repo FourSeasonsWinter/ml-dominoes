@@ -1,8 +1,9 @@
-class Player:
-  hand = []
+import random
 
+class Player:
   def __init__(self, id):
     self.id = id
+    self.hand = []
   
   def add_tile(self, tile):
     self.hand.append(tile)
@@ -21,6 +22,26 @@ class Tile:
 
 
 def main():
+  tiles = create_tiles()
+  random.shuffle(tiles)
+
+  player1 = Player(1)
+  player2 = Player(2)
+  players = [player1, player2]
+  deal_tiles(players, tiles)
+
+  print("player 1:")
+  for tile in player1.hand:
+    print(f"{tile.first}|{tile.second}")
+
+  print("\nplayer 2:")
+  
+  for tile in player2.hand:
+    print(f"{tile.first}|{tile.second}")
+
+
+
+def create_tiles():
   tiles = []
 
   for first in range(7):
@@ -32,9 +53,18 @@ def main():
 
       tiles.append(tile)
   
-  for tile in tiles:
-    print(str(tile.first) + " " + str(tile.second))
+  return tiles
+
+
+def deal_tiles(players, tiles):
+  amount_to_deal = 7
+
+  if len(players) == 3:
+    amount_to_deal = 9
   
-  print("length: " + str(len(tiles)))
+  for player in players:
+    for _ in range(amount_to_deal):
+      player.add_tile(tiles.pop())
+
 
 main()
