@@ -1,44 +1,18 @@
 import random
-
-class Player:
-  def __init__(self, id):
-    self.id = id
-    self.hand = []
-  
-  def add_tile(self, tile):
-    self.hand.append(tile)
-
-
-class Tile:
-  def __init__(self, first, second):
-    self.first = first
-    self.second = second
-  
-  def __eq__(self, value):
-    if not isinstance(value, Tile):
-      return False
-    
-    return (self.first == value.first and self.second == value.second) or (self.first == value.second and self.second == value.first)
+import screen
+from player import Player
+from tile import Tile
 
 
 def main():
   tiles = create_tiles()
   random.shuffle(tiles)
 
-  player1 = Player(1)
-  player2 = Player(2)
-  players = [player1, player2]
+  players = [Player(1), Player(2), Player(3), Player(4)]
   deal_tiles(players, tiles)
 
-  print("player 1:")
-  for tile in player1.hand:
-    print(f"{tile.first}|{tile.second}")
-
-  print("\nplayer 2:")
-  
-  for tile in player2.hand:
-    print(f"{tile.first}|{tile.second}")
-
+  first_player = get_first_player(players)
+  screen.print_remaining_tiles(tiles)
 
 
 def create_tiles():
@@ -61,10 +35,26 @@ def deal_tiles(players, tiles):
 
   if len(players) == 3:
     amount_to_deal = 9
+  elif len(players) == 4:
+    amount_to_deal = 6
   
   for player in players:
     for _ in range(amount_to_deal):
       player.add_tile(tiles.pop())
+
+
+def get_first_player(players):
+  first_player_id = 0
+  largest_sum = 0
+
+  for player in players:
+    for tile in player.hand:
+      sum = tile.first + tile.second
+      if sum > largest_sum:
+        largest_sum = sum
+        first_player_id = player.id
+
+  return first_player_id
 
 
 main()
