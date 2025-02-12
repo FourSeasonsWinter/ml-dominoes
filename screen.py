@@ -6,7 +6,7 @@ def print_hands(players):
       print(f"{tile.first}|{tile.second}")
 
 
-def print_remaining_tiles(tiles):
+def print_tiles(tiles):
   print("remaining tiles:")
   for tile in tiles:
     print(f"{tile.first}|{tile.second}")
